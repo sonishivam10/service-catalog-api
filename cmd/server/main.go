@@ -46,6 +46,7 @@ func main() {
 	r := mux.NewRouter()
 	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 	r.HandleFunc("/healthz", handler.HealthCheck).Methods("GET")
+	r.Use(middleware.CORSMiddleware)
 	r.Use(middleware.AuthMiddleware) // apply to all routes
 
 	handler.NewServiceHandler(r, svc)
