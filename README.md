@@ -131,4 +131,7 @@ docker volume rm service_catalog_pgdata
 * **No ORM**: Uses `sqlx` for lighter version and explicit SQL over heavier ORMs like GORM.
 * **Minimal dependencies**: To keep the image lean, everything is built into Alpine containers.
 
+## Screenshot
+
+![Swagger TEST Screenshot](image.png)
 ---
