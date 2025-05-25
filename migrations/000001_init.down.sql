@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS versions;
+DROP TABLE IF EXISTS services;

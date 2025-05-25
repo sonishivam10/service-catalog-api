@@ -1,0 +1,144 @@
+basePath: /
+definitions:
+  response.APIResponse:
+    properties:
+      data: {}
+      error: {}
+      pagination:
+        $ref: '#/definitions/response.Pagination'
+    type: object
+  response.Pagination:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is the API for service catalog assignment.
+  title: Service Catalog API
+  version: "1.0"
+paths:
+  /healthz:
+    get:
+      description: Returns 200 OK if the service is up
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: Health check
+      tags:
+      - system
+  /services:
+    get:
+      consumes:
+      - application/json
+      description: Get all services with filtering, sorting, and pagination
+      parameters:
+      - description: Search keyword
+        in: query
+        name: search
+        type: string
+      - description: Sort by field (name, created_at)
+        in: query
+        name: sort_by
+        type: string
+      - description: asc or desc
+        in: query
+        name: sort_order
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: List services
+      tags:
+      - services
+  /services/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Returns a single service by its UUID.
+      parameters:
+      - description: Service UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "400":
+          description: Invalid UUID format
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "404":
+          description: Service not found
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Get a Service by ID
+      tags:
+      - services
+  /services/{id}/versions:
+    get:
+      consumes:
+      - application/json
+      description: Returns a list of all versions for a specific service.
+      parameters:
+      - description: Service UUID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "400":
+          description: Invalid UUID format
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/response.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: List Versions of a Service
+      tags:
+      - services
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

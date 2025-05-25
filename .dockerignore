@@ -1,0 +1,6 @@
+# Ignore these during Docker build
+# /docs
+*.log
+*.env
+*.test
+vendor/
