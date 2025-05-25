@@ -17,7 +17,7 @@ import (
 	"time"
 
 	_ "github.com/lib/pq" // 🔥 REQUIRED: Register postgres driver
-	_ "github.com/sonishivam10/service-catalog/docs"
+	docs "github.com/sonishivam10/service-catalog/docs"
 	httpSwagger "github.com/swaggo/http-swagger"
 
 	"github.com/gorilla/mux"
@@ -31,6 +31,9 @@ import (
 
 func main() {
 	cfg := config.LoadConfig()
+
+	docs.SwaggerInfo.Host = os.Getenv("SWAGGER_HOST")
+	docs.SwaggerInfo.Schemes = []string{os.Getenv("SWAGGER_SCHEME")}
 
 	// Connect to DB
 	db, err := sqlx.Open("postgres", cfg.DatabaseURL)
